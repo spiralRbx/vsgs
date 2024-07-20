@@ -1,3 +1,7 @@
+-- Generated using RoadToGlory's Converter v1.1 (RoadToGlory#9879)
+
+-- Instances:
+
 local Converted = {
 	["_SPIMENU"] = Instance.new("ScreenGui");
 	["_SPIFRAME1"] = Instance.new("Frame");
@@ -222,7 +226,7 @@ local fake_module_scripts = {}
 
 -- Fake Local Scripts:
 
-local function TZOFIZM_fake_script() -- Fake Script: StarterGui.SPIMENU.SPIFRAME1.SPIScrollingFrame1.titler1.bypass1.LocalScript1
+local function TCDDM_fake_script() -- Fake Script: StarterGui.SPIMENU.SPIFRAME1.SPIScrollingFrame1.titler1.bypass1.LocalScript1
     local script = Instance.new("LocalScript")
     script.Name = "LocalScript1"
     script.Parent = Converted["_bypass1"]
@@ -263,7 +267,7 @@ local function TZOFIZM_fake_script() -- Fake Script: StarterGui.SPIMENU.SPIFRAME
 	button.MouseButton1Click:Connect(teleportPlayer)
 	
 end
-local function HUJEDX_fake_script() -- Fake Script: StarterGui.SPIMENU.SPIFRAME1.SPIScrollingFrame1.titler2.bypass2.LocalScript2
+local function OBYRVRV_fake_script() -- Fake Script: StarterGui.SPIMENU.SPIFRAME1.SPIScrollingFrame1.titler2.bypass2.LocalScript2
     local script = Instance.new("LocalScript")
     script.Name = "LocalScript2"
     script.Parent = Converted["_bypass2"]
@@ -277,37 +281,32 @@ local function HUJEDX_fake_script() -- Fake Script: StarterGui.SPIMENU.SPIFRAME1
     end
 
 	local button = script.Parent
-
--- Variável para rastrear o estado do loop
-local isActive = false
-
--- Função que será chamada em loop
-local function loopFunction()
-    while isActive do
-        print("Loop ativo: disparando evento.")
-        game:GetService("ReplicatedStorage").Communication.Hit:FireServer()
-        wait(0.1)
-    end
-end
-
--- Função para alternar o estado
-local function toggleLoop()
-    isActive = not isActive
-    if isActive then
-        print("Loop ativado")
-        -- Iniciar o loop em uma nova thread
-        spawn(loopFunction)
-    else
-        print("Loop desativado")
-    end
-end
-
--- Conectar a função de alternância ao evento de clique do botão
-button.MouseButton1Click:Connect(toggleLoop)
-
+	
+	-- Variável para rastrear o estado do loop
+	local isActive = false
+	
+	-- Função que será chamada em loop
+	local function loopFunction()
+		while isActive do
+			game:GetService("ReplicatedStorage").Communication.Hit:FireServer()
+			wait(0.1)
+		end
+	end
+	
+	-- Função para alternar o estado
+	local function toggleLoop()
+		isActive = not isActive
+		if isActive then
+			-- Iniciar o loop em uma nova thread
+			spawn(loopFunction)
+		end
+	end
+	
+	-- Conectar a função de alternância ao evento de clique do botão
+	button.MouseButton1Click:Connect(toggleLoop)
 	
 end
-local function NRTUDR_fake_script() -- Fake Script: StarterGui.SPIMENU.SPIFRAME1.SPIScrollingFrame1.title3.bypass3.LocalScript2
+local function IIXOM_fake_script() -- Fake Script: StarterGui.SPIMENU.SPIFRAME1.SPIScrollingFrame1.title3.bypass3.LocalScript2
     local script = Instance.new("LocalScript")
     script.Name = "LocalScript2"
     script.Parent = Converted["_bypass3"]
@@ -320,56 +319,45 @@ local function NRTUDR_fake_script() -- Fake Script: StarterGui.SPIMENU.SPIFRAME1
         return req(obj)
     end
 
-	local Players = game:GetService("Players")
-	local player = Players.LocalPlayer
-	local backpack = player:WaitForChild("Backpack")
-	local chatService = require(game:GetService("Chat"))
+	local button = script.Parent
 	
-	local function girarBoomBox()
-		-- Define a distância e a velocidade de rotação
-		local distancia = 10
-		local velocidade = 5
+	local ReplicatedStorage = game:GetService("ReplicatedStorage")
+	local RunService = game:GetService("RunService")
+	local teleportLocation = workspace.Worlds["1"]:FindFirstChild("Blocks")
 	
-		-- Itera sobre todos os itens no Backpack
-		for _, item in pairs(backpack:GetChildren()) do
-			if item:IsA("Tool") and item.Name:find("BoomBox") then
-				-- Define a posição inicial
-				local posicaoInicial = item.Position
-				local tempo = 0
+	local isActive = false
+	local connection
 	
-				-- Adiciona uma parte para auxiliar na rotação
-				local rotacaoCentro = Instance.new("Part")
-				rotacaoCentro.Size = Vector3.new(1, 1, 1)
-				rotacaoCentro.Position = player.Character.HumanoidRootPart.Position
-				rotacaoCentro.Anchored = true
-				rotacaoCentro.CanCollide = false
-				rotacaoCentro.Parent = workspace
+	local function teleportPlayer()
+		local player = game.Players.LocalPlayer
+		if player and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+			local humanoidRootPart = player.Character.HumanoidRootPart
+			humanoidRootPart.CFrame = teleportLocation:GetPivot()
+		end
+	end
 	
-				-- Faz a BoomBox girar ao redor do personagem
-				while tempo < 2 * math.pi do
-					tempo = tempo + (math.pi / velocidade) * game:GetService("RunService").RenderStepped:Wait()
-					local x = distancia * math.cos(tempo)
-					local z = distancia * math.sin(tempo)
-					item.Position = rotacaoCentro.Position + Vector3.new(x, 0, z)
-				end
+	local function onHeartbeat()
+		if isActive then
+			ReplicatedStorage.Communication.Hit:FireServer()
+		end
+	end
 	
-				-- Remove a parte auxiliar de rotação
-				rotacaoCentro:Destroy()
+	local function toggleLoop()
+		isActive = not isActive
+		if isActive then
+			teleportPlayer()  -- Teleporta o jogador quando o loop é ativado
+			connection = RunService.Heartbeat:Connect(onHeartbeat)
+		else
+			if connection then
+				connection:Disconnect()
 			end
 		end
 	end
 	
-	local function onChatMessage(message)
-		if message:lower() == "!animarboombox" then
-			girarBoomBox()
-		end
-	end
-	
-	-- Conecta a função ao evento de mensagem de chat
-	player.Chatted:Connect(onChatMessage)
+	button.MouseButton1Click:Connect(toggleLoop)
 	
 end
-local function NELKH_fake_script() -- Fake Script: StarterGui.SPIMENU.SPIFRAME1.LocalScript0
+local function ZTRT_fake_script() -- Fake Script: StarterGui.SPIMENU.SPIFRAME1.LocalScript0
     local script = Instance.new("LocalScript")
     script.Name = "LocalScript0"
     script.Parent = Converted["_SPIFRAME1"]
@@ -448,7 +436,7 @@ local function NELKH_fake_script() -- Fake Script: StarterGui.SPIMENU.SPIFRAME1.
 	
 end
 
-coroutine.wrap(TZOFIZM_fake_script)()
-coroutine.wrap(HUJEDX_fake_script)()
-coroutine.wrap(NRTUDR_fake_script)()
-coroutine.wrap(NELKH_fake_script)()
+coroutine.wrap(TCDDM_fake_script)()
+coroutine.wrap(OBYRVRV_fake_script)()
+coroutine.wrap(IIXOM_fake_script)()
+coroutine.wrap(ZTRT_fake_script)()
