@@ -226,7 +226,7 @@ local fake_module_scripts = {}
 
 -- Fake Local Scripts:
 
-local function TCDDM_fake_script() -- Fake Script: StarterGui.SPIMENU.SPIFRAME1.SPIScrollingFrame1.titler1.bypass1.LocalScript1
+local function EBRS_fake_script() -- Fake Script: StarterGui.SPIMENU.SPIFRAME1.SPIScrollingFrame1.titler1.bypass1.LocalScript1
     local script = Instance.new("LocalScript")
     script.Name = "LocalScript1"
     script.Parent = Converted["_bypass1"]
@@ -267,7 +267,7 @@ local function TCDDM_fake_script() -- Fake Script: StarterGui.SPIMENU.SPIFRAME1.
 	button.MouseButton1Click:Connect(teleportPlayer)
 	
 end
-local function OBYRVRV_fake_script() -- Fake Script: StarterGui.SPIMENU.SPIFRAME1.SPIScrollingFrame1.titler2.bypass2.LocalScript2
+local function MIKV_fake_script() -- Fake Script: StarterGui.SPIMENU.SPIFRAME1.SPIScrollingFrame1.titler2.bypass2.LocalScript2
     local script = Instance.new("LocalScript")
     script.Name = "LocalScript2"
     script.Parent = Converted["_bypass2"]
@@ -282,31 +282,35 @@ local function OBYRVRV_fake_script() -- Fake Script: StarterGui.SPIMENU.SPIFRAME
 
 	local button = script.Parent
 	
-	-- Variável para rastrear o estado do loop
-	local isActive = false
+	local UserInputService = game:GetService("UserInputService")
+	local RunService = game:GetService("RunService")
+	local ReplicatedStorage = game:GetService("ReplicatedStorage")
 	
-	-- Função que será chamada em loop
-	local function loopFunction()
+	local isActive = false
+	local connection
+	
+	local function autoClick()
 		while isActive do
-			game:GetService("ReplicatedStorage").Communication.Hit:FireServer()
+			ReplicatedStorage.Communication.Hit:FireServer()
 			wait(0.1)
 		end
 	end
 	
-	-- Função para alternar o estado
-	local function toggleLoop()
+	local function toggleAutoClick()
 		isActive = not isActive
 		if isActive then
-			-- Iniciar o loop em uma nova thread
-			spawn(loopFunction)
+			connection = RunService.Heartbeat:Connect(autoClick)
+		else
+			if connection then
+				connection:Disconnect()
+			end
 		end
 	end
 	
-	-- Conectar a função de alternância ao evento de clique do botão
-	button.MouseButton1Click:Connect(toggleLoop)
+	button.MouseButton1Click:Connect(toggleAutoClick)
 	
 end
-local function IIXOM_fake_script() -- Fake Script: StarterGui.SPIMENU.SPIFRAME1.SPIScrollingFrame1.title3.bypass3.LocalScript2
+local function CKVVJL_fake_script() -- Fake Script: StarterGui.SPIMENU.SPIFRAME1.SPIScrollingFrame1.title3.bypass3.LocalScript2
     local script = Instance.new("LocalScript")
     script.Name = "LocalScript2"
     script.Parent = Converted["_bypass3"]
@@ -357,7 +361,7 @@ local function IIXOM_fake_script() -- Fake Script: StarterGui.SPIMENU.SPIFRAME1.
 	button.MouseButton1Click:Connect(toggleLoop)
 	
 end
-local function ZTRT_fake_script() -- Fake Script: StarterGui.SPIMENU.SPIFRAME1.LocalScript0
+local function MPQY_fake_script() -- Fake Script: StarterGui.SPIMENU.SPIFRAME1.LocalScript0
     local script = Instance.new("LocalScript")
     script.Name = "LocalScript0"
     script.Parent = Converted["_SPIFRAME1"]
@@ -436,7 +440,7 @@ local function ZTRT_fake_script() -- Fake Script: StarterGui.SPIMENU.SPIFRAME1.L
 	
 end
 
-coroutine.wrap(TCDDM_fake_script)()
-coroutine.wrap(OBYRVRV_fake_script)()
-coroutine.wrap(IIXOM_fake_script)()
-coroutine.wrap(ZTRT_fake_script)()
+coroutine.wrap(EBRS_fake_script)()
+coroutine.wrap(MIKV_fake_script)()
+coroutine.wrap(CKVVJL_fake_script)()
+coroutine.wrap(MPQY_fake_script)()
