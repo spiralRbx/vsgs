@@ -222,10 +222,51 @@ local fake_module_scripts = {}
 
 -- Fake Local Scripts:
 
-local function MUNPDR_fake_script() -- Fake Script: StarterGui.SPIMENU.SPIFRAME1.SPIScrollingFrame1.titler1.bypass1.LocalScript1
+local function TZOFIZM_fake_script() -- Fake Script: StarterGui.SPIMENU.SPIFRAME1.SPIScrollingFrame1.titler1.bypass1.LocalScript1
     local script = Instance.new("LocalScript")
     script.Name = "LocalScript1"
     script.Parent = Converted["_bypass1"]
+    local req = require
+    local require = function(obj)
+        local fake = fake_module_scripts[obj]
+        if fake then
+            return fake()
+        end
+        return req(obj)
+    end
+
+	local button = script.Parent
+	local teleportLocation = workspace.Worlds["1"]:FindFirstChild("Blocks")
+	
+	local teleported = false
+	local originalCFrame
+	
+	local function teleportPlayer()
+		local player = game.Players.LocalPlayer
+		if player and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+			local humanoidRootPart = player.Character.HumanoidRootPart
+	
+			if not teleported then
+				-- Salva a posição original
+				originalCFrame = humanoidRootPart.CFrame
+				-- Teletransporta para a nova localização
+				humanoidRootPart.CFrame = teleportLocation:GetPivot()
+				teleported = true
+			else
+				-- Retorna à posição original
+				humanoidRootPart.CFrame = originalCFrame
+				teleported = false
+			end
+		end
+	end
+	
+	button.MouseButton1Click:Connect(teleportPlayer)
+	
+end
+local function HUJEDX_fake_script() -- Fake Script: StarterGui.SPIMENU.SPIFRAME1.SPIScrollingFrame1.titler2.bypass2.LocalScript2
+    local script = Instance.new("LocalScript")
+    script.Name = "LocalScript2"
+    script.Parent = Converted["_bypass2"]
     local req = require
     local require = function(obj)
         local fake = fake_module_scripts[obj]
@@ -261,40 +302,7 @@ local function MUNPDR_fake_script() -- Fake Script: StarterGui.SPIMENU.SPIFRAME1
 	button.MouseButton1Click:Connect(toggleLoop)
 	
 end
-local function FKOHII_fake_script() -- Fake Script: StarterGui.SPIMENU.SPIFRAME1.SPIScrollingFrame1.titler2.bypass2.LocalScript2
-    local script = Instance.new("LocalScript")
-    script.Name = "LocalScript2"
-    script.Parent = Converted["_bypass2"]
-    local req = require
-    local require = function(obj)
-        local fake = fake_module_scripts[obj]
-        if fake then
-            return fake()
-        end
-        return req(obj)
-    end
-
-	local Players = game:GetService("Players")
-	
-	local player = Players.LocalPlayer  -- Obtém o jogador local
-	local backpack = player:WaitForChild("Backpack")  -- Obtém o Backpack do jogador
-	
-	local function equiparTodasAsBoomBox()
-		-- Itera sobre todos os itens no Backpack do jogador
-		for _, item in pairs(backpack:GetChildren()) do
-			-- Verifica se o item é uma BoomBox
-			if item:IsA("Tool") and item.Name:find("BoomBox") then
-				-- Equipar a BoomBox
-				player.Character.Humanoid:EquipTool(item)
-			end
-		end
-	end
-	
-	-- Executa a função para equipar todas as BoomBox
-	equiparTodasAsBoomBox()
-	
-end
-local function ZVAF_fake_script() -- Fake Script: StarterGui.SPIMENU.SPIFRAME1.SPIScrollingFrame1.title3.bypass3.LocalScript2
+local function NRTUDR_fake_script() -- Fake Script: StarterGui.SPIMENU.SPIFRAME1.SPIScrollingFrame1.title3.bypass3.LocalScript2
     local script = Instance.new("LocalScript")
     script.Name = "LocalScript2"
     script.Parent = Converted["_bypass3"]
@@ -356,7 +364,7 @@ local function ZVAF_fake_script() -- Fake Script: StarterGui.SPIMENU.SPIFRAME1.S
 	player.Chatted:Connect(onChatMessage)
 	
 end
-local function YAMJS_fake_script() -- Fake Script: StarterGui.SPIMENU.SPIFRAME1.LocalScript0
+local function NELKH_fake_script() -- Fake Script: StarterGui.SPIMENU.SPIFRAME1.LocalScript0
     local script = Instance.new("LocalScript")
     script.Name = "LocalScript0"
     script.Parent = Converted["_SPIFRAME1"]
@@ -435,7 +443,7 @@ local function YAMJS_fake_script() -- Fake Script: StarterGui.SPIMENU.SPIFRAME1.
 	
 end
 
-coroutine.wrap(MUNPDR_fake_script)()
-coroutine.wrap(FKOHII_fake_script)()
-coroutine.wrap(ZVAF_fake_script)()
-coroutine.wrap(YAMJS_fake_script)()
+coroutine.wrap(TZOFIZM_fake_script)()
+coroutine.wrap(HUJEDX_fake_script)()
+coroutine.wrap(NRTUDR_fake_script)()
+coroutine.wrap(NELKH_fake_script)()
