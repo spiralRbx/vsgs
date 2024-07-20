@@ -277,29 +277,34 @@ local function HUJEDX_fake_script() -- Fake Script: StarterGui.SPIMENU.SPIFRAME1
     end
 
 	local button = script.Parent
-	
-	-- Variável para rastrear o estado do loop
-	local isActive = false
-	
-	-- Função que será chamada em loop
-	local function loopFunction()
-		while isActive do
-			game:GetService("ReplicatedStorage").Communication.Hit:FireServer()
-			wait(0.1)
-		end
-	end
-	
-	-- Função para alternar o estado
-	local function toggleLoop()
-		isActive = not isActive
-		if isActive then
-			-- Iniciar o loop em uma nova thread
-			spawn(loopFunction)
-		end
-	end
-	
-	-- Conectar a função de alternância ao evento de clique do botão
-	button.MouseButton1Click:Connect(toggleLoop)
+
+-- Variável para rastrear o estado do loop
+local isActive = false
+
+-- Função que será chamada em loop
+local function loopFunction()
+    while isActive do
+        print("Loop ativo: disparando evento.")
+        game:GetService("ReplicatedStorage").Communication.Hit:FireServer()
+        wait(0.1)
+    end
+end
+
+-- Função para alternar o estado
+local function toggleLoop()
+    isActive = not isActive
+    if isActive then
+        print("Loop ativado")
+        -- Iniciar o loop em uma nova thread
+        spawn(loopFunction)
+    else
+        print("Loop desativado")
+    end
+end
+
+-- Conectar a função de alternância ao evento de clique do botão
+button.MouseButton1Click:Connect(toggleLoop)
+
 	
 end
 local function NRTUDR_fake_script() -- Fake Script: StarterGui.SPIMENU.SPIFRAME1.SPIScrollingFrame1.title3.bypass3.LocalScript2
