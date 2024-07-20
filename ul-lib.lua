@@ -222,7 +222,7 @@ local fake_module_scripts = {}
 
 -- Fake Local Scripts:
 
-local function OWFZODO_fake_script() -- Fake Script: StarterGui.SPIMENU.SPIFRAME1.SPIScrollingFrame1.titler1.bypass1.LocalScript1
+local function MUNPDR_fake_script() -- Fake Script: StarterGui.SPIMENU.SPIFRAME1.SPIScrollingFrame1.titler1.bypass1.LocalScript1
     local script = Instance.new("LocalScript")
     script.Name = "LocalScript1"
     script.Parent = Converted["_bypass1"]
@@ -236,34 +236,32 @@ local function OWFZODO_fake_script() -- Fake Script: StarterGui.SPIMENU.SPIFRAME
     end
 
 	local button = script.Parent
-	local teleportLocation = workspace.Worlds["1"]:FindFirstChild("Blocks")
 	
-	local teleported = false
-	local originalCFrame
+	-- Variável para rastrear o estado do loop
+	local isActive = false
 	
-	local function teleportPlayer()
-		local player = game.Players.LocalPlayer
-		if player and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
-			local humanoidRootPart = player.Character.HumanoidRootPart
-	
-			if not teleported then
-				-- Salva a posição original
-				originalCFrame = humanoidRootPart.CFrame
-				-- Teletransporta para a nova localização
-				humanoidRootPart.CFrame = teleportLocation:GetPivot()
-				teleported = true
-			else
-				-- Retorna à posição original
-				humanoidRootPart.CFrame = originalCFrame
-				teleported = false
-			end
+	-- Função que será chamada em loop
+	local function loopFunction()
+		while isActive do
+			game:GetService("ReplicatedStorage").Communication.Hit:FireServer()
+			wait(0.1)
 		end
 	end
 	
-	button.MouseButton1Click:Connect(teleportPlayer)
+	-- Função para alternar o estado
+	local function toggleLoop()
+		isActive = not isActive
+		if isActive then
+			-- Iniciar o loop em uma nova thread
+			spawn(loopFunction)
+		end
+	end
+	
+	-- Conectar a função de alternância ao evento de clique do botão
+	button.MouseButton1Click:Connect(toggleLoop)
 	
 end
-local function QFQKPU_fake_script() -- Fake Script: StarterGui.SPIMENU.SPIFRAME1.SPIScrollingFrame1.titler2.bypass2.LocalScript2
+local function FKOHII_fake_script() -- Fake Script: StarterGui.SPIMENU.SPIFRAME1.SPIScrollingFrame1.titler2.bypass2.LocalScript2
     local script = Instance.new("LocalScript")
     script.Name = "LocalScript2"
     script.Parent = Converted["_bypass2"]
@@ -296,7 +294,7 @@ local function QFQKPU_fake_script() -- Fake Script: StarterGui.SPIMENU.SPIFRAME1
 	equiparTodasAsBoomBox()
 	
 end
-local function ZFJL_fake_script() -- Fake Script: StarterGui.SPIMENU.SPIFRAME1.SPIScrollingFrame1.title3.bypass3.LocalScript2
+local function ZVAF_fake_script() -- Fake Script: StarterGui.SPIMENU.SPIFRAME1.SPIScrollingFrame1.title3.bypass3.LocalScript2
     local script = Instance.new("LocalScript")
     script.Name = "LocalScript2"
     script.Parent = Converted["_bypass3"]
@@ -358,7 +356,7 @@ local function ZFJL_fake_script() -- Fake Script: StarterGui.SPIMENU.SPIFRAME1.S
 	player.Chatted:Connect(onChatMessage)
 	
 end
-local function LGDLWLD_fake_script() -- Fake Script: StarterGui.SPIMENU.SPIFRAME1.LocalScript0
+local function YAMJS_fake_script() -- Fake Script: StarterGui.SPIMENU.SPIFRAME1.LocalScript0
     local script = Instance.new("LocalScript")
     script.Name = "LocalScript0"
     script.Parent = Converted["_SPIFRAME1"]
@@ -437,7 +435,7 @@ local function LGDLWLD_fake_script() -- Fake Script: StarterGui.SPIMENU.SPIFRAME
 	
 end
 
-coroutine.wrap(OWFZODO_fake_script)()
-coroutine.wrap(QFQKPU_fake_script)()
-coroutine.wrap(ZFJL_fake_script)()
-coroutine.wrap(LGDLWLD_fake_script)()
+coroutine.wrap(MUNPDR_fake_script)()
+coroutine.wrap(FKOHII_fake_script)()
+coroutine.wrap(ZVAF_fake_script)()
+coroutine.wrap(YAMJS_fake_script)()
